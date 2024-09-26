@@ -20,15 +20,10 @@ const objectsData = [
 ];
 
 const ObjectsCard = () => {
-  const [selectedObjects, setSelectedObjects] = useState([]);
+  const [selectedObjectId, setSelectedObjectId] = useState(null);
 
   const handleToggle = (id) => {
-    setSelectedObjects(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((objId) => objId !== id) // Deselect
-          : [...prevSelected, id] // Select
-    );
+    setSelectedObjectId((prevId) => (prevId === id ? null : id));
   };
 
   return (
@@ -94,13 +89,13 @@ const ObjectsCard = () => {
         <div
           key={object.id}
           className={`w-full h-[48px] flex flex-row items-center justify-between pr-2 gap-4 ${
-            selectedObjects.includes(object.id) ? "bg-p2" : ""
+            selectedObjectId === object.id ? "bg-p2" : ""
           }`}
         >
           <Checkbox
             color="success"
             size="small"
-            checked={selectedObjects.includes(object.id)}
+            checked={selectedObjectId === object.id}
             onChange={() => handleToggle(object.id)}
           />
           <div className="text-[14px] text-nowrap">{object.name}</div>
@@ -112,10 +107,14 @@ const ObjectsCard = () => {
             </div>
           </div>
           <div className="pr-2">
-            <span className="inline-block w-3 h-3 bg-green-500 rounded-full"></span>
+            <span className="inline-block w-3 h-3 bg-green-500 rounded-full" />
           </div>
         </div>
       ))}
+      {/* bottom section */}
+      <button className="absolute bottom-1 right-1 rounded-full flex">
+        <img src="refresh.png" alt="refresh" />
+      </button>
     </div>
   );
 };
