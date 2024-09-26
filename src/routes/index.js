@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         path: "liveTracking",
         element: (
           <Layout>
-            <LiveTracking />,
+            <LiveTracking />
           </Layout>
         ),
       },
