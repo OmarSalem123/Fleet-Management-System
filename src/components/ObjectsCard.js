@@ -5,6 +5,7 @@ import { formatDate } from "../utils";
 
 const ObjectsCard = ({ devices, positions }) => {
   const [selectedObjectId, setSelectedObjectId] = useState(null);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const handleToggle = (id) => {
     setSelectedObjectId((prevId) => (prevId === id ? null : id));
@@ -16,6 +17,27 @@ const ObjectsCard = ({ devices, positions }) => {
       ? { name: device.name, status: device.status }
       : { name: "Unknown Device", status: "Unknown" };
   };
+
+  const toggleMinimized = () => {
+    setIsMinimized((prevState) => !prevState);
+  };
+
+  if (isMinimized) {
+    return (
+      <button
+        className="absolute top-[40%] left-4 bg-white p-4 rounded-xl shadow-lg flex items-center justify-center z-10"
+        style={{ zIndex: 1000 }}
+        onClick={toggleMinimized}
+      >
+        <span className="font-bold">Objects</span>
+        <img
+          src="arrow.svg"
+          alt="arrow"
+          className="cursor-pointer rotate-180 h-[28px]"
+        />
+      </button>
+    );
+  }
 
   return (
     <div
@@ -37,7 +59,12 @@ const ObjectsCard = ({ devices, positions }) => {
             alt="full-screen2"
             className="cursor-pointer"
           />
-          <img src="arrow.svg" alt="arrow" className="cursor-pointer" />
+          <img
+            src="arrow.svg"
+            alt="arrow"
+            className="cursor-pointer"
+            onClick={toggleMinimized}
+          />
         </div>
       </div>
       {/* second section */}
