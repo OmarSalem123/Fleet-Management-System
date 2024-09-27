@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchVehiclePositions, fetchDevices } from "../actions";
 import {
   MapContainer,
   TileLayer,
@@ -12,28 +12,9 @@ import { Icon } from "leaflet";
 import { formatDate } from "../utils";
 import ObjectsCard from "../components/ObjectsCard";
 
-const fetchVehiclePositions = async (deviceId, from, to) => {
-  const url = "http://localhost:8082/api/positions";
-  try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Basic ${btoa("admin:admin")}`,
-      },
-      params: {
-        deviceId,
-        from,
-        to,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching vehicle positions:", error);
-    return [];
-  }
-};
-
 const LiveTracking = ({ deviceId, startDate, endDate }) => {
   const [positions, setPositions] = useState([]);
+  const [devices, setDevices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -47,9 +28,20 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchVehiclePositions(deviceId, startDate, endDate);
-      setPositions(data);
-      setIsLoading(false);
+      try {
+        const [positionsData, devicesData] = await Promise.all([
+          fetchVehiclePositions(deviceId, startDate, endDate),
+          fetchDevices(),
+        ]);
+
+        setPositions(positionsData);
+        setDevices(devicesData);
+        console.log(positionsData, devicesData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, [deviceId, startDate, endDate]);
@@ -108,7 +100,7 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
           positions={positions.map((pos) => [pos.latitude, pos.longitude])}
         />
       </MapContainer>
-      <ObjectsCard />
+      <ObjectsCard positions={positions} devices={devices} />
     </div>
   );
 };

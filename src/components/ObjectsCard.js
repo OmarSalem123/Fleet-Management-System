@@ -1,29 +1,20 @@
 import React, { useState } from "react";
 import Badges from "./Badges";
 import Checkbox from "@mui/material/Checkbox";
+import { formatDate } from "../utils";
 
-const objectsData = [
-  {
-    id: 1,
-    name: "Volvo9666-2146",
-    speed: "10 km/h",
-    lastUpdate: { date: "20/11/2023", time: "20:10:10" },
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Volvo9666-6562",
-    speed: "10 km/h",
-    lastUpdate: { date: "20/11/2023", time: "20:10:10" },
-    status: "active",
-  },
-];
-
-const ObjectsCard = () => {
+const ObjectsCard = ({ devices, positions }) => {
   const [selectedObjectId, setSelectedObjectId] = useState(null);
 
   const handleToggle = (id) => {
     setSelectedObjectId((prevId) => (prevId === id ? null : id));
+  };
+
+  const getDeviceInfo = (deviceId) => {
+    const device = devices.find((device) => device.id === deviceId);
+    return device
+      ? { name: device.name, status: device.status }
+      : { name: "Unknown Device", status: "Unknown" };
   };
 
   return (
@@ -85,32 +76,46 @@ const ObjectsCard = () => {
           <img src="arrow-down.svg" className="mr-1" />
         </div>
       </div>
-      {objectsData.map((object) => (
-        <div
-          key={object.id}
-          className={`w-full h-[48px] flex flex-row items-center justify-between pr-2 gap-4 ${
-            selectedObjectId === object.id ? "bg-p2" : ""
-          }`}
-        >
-          <Checkbox
-            color="success"
-            size="small"
-            checked={selectedObjectId === object.id}
-            onChange={() => handleToggle(object.id)}
-          />
-          <div className="text-[14px] text-nowrap">{object.name}</div>
-          <div className="text-[12px] text-nowrap">{object.speed}</div>
-          <div className="flex-grow ml-2">
-            <div className="text-sm">{object.lastUpdate.date}</div>
-            <div className="text-sm text-gray-600">
-              {object.lastUpdate.time}
+      {positions.map((position) => {
+        const { formattedDate, formattedTime } = formatDate(
+          position.deviceTime
+        );
+        const { name: deviceName, status: deviceStatus } = getDeviceInfo(
+          position.deviceId
+        );
+        return (
+          <div
+            key={position.id}
+            className={`w-full h-[48px] flex flex-row items-center justify-between pr-2 gap-7 ${
+              selectedObjectId === position.id ? "bg-p2" : ""
+            }`}
+          >
+            <Checkbox
+              color="success"
+              size="small"
+              checked={selectedObjectId === position.id}
+              onChange={() => handleToggle(position.id)}
+            />
+            <div className="flex flex-row w-full items-center">
+              <div className="text-[14px] text-nowrap w-1/3">{deviceName}</div>
+              <div className="text-[12px] text-nowrap w-1/3 text-center">
+                {position.speed} km/h
+              </div>
+              <div className="flex-grow ml-2 text-center w-1/3">
+                <div className="text-sm">{formattedDate}</div>
+                <div className="text-sm text-[#7A869A]">{formattedTime}</div>
+              </div>
+            </div>
+            <div className="pr-2">
+              {deviceStatus === "online" ? (
+                <span className="inline-block w-3 h-3 bg-green-500 rounded-full" />
+              ) : (
+                <span className="inline-block w-3 h-3 bg-red-500 rounded-full" />
+              )}
             </div>
           </div>
-          <div className="pr-2">
-            <span className="inline-block w-3 h-3 bg-green-500 rounded-full" />
-          </div>
-        </div>
-      ))}
+        );
+      })}
       {/* bottom section */}
       <button className="absolute bottom-1 right-1 rounded-full flex">
         <img src="refresh.png" alt="refresh" />
