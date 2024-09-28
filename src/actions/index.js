@@ -34,3 +34,18 @@ export const fetchDevices = async () => {
     return [];
   }
 };
+
+export const fetchEvents = async () => {
+  const url = "http://localhost:8082/api/reports/route";
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Basic ${btoa("admin:admin")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching devices:", error);
+    return [];
+  }
+};

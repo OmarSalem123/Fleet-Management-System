@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchVehiclePositions, fetchDevices } from "../actions";
+import { fetchVehiclePositions, fetchDevices, fetchEvents } from "../actions";
 import {
   MapContainer,
   TileLayer,
@@ -15,6 +15,7 @@ import ObjectsCard from "../components/ObjectsCard";
 const LiveTracking = ({ deviceId, startDate, endDate }) => {
   const [positions, setPositions] = useState([]);
   const [devices, setDevices] = useState([]);
+  const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,14 +30,16 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [positionsData, devicesData] = await Promise.all([
+        const [positionsData, devicesData, eventsData] = await Promise.all([
           fetchVehiclePositions(deviceId, startDate, endDate),
           fetchDevices(),
+          fetchEvents(),
         ]);
 
         setPositions(positionsData);
         setDevices(devicesData);
-        console.log(positionsData, devicesData);
+        setEvents(eventsData);
+        console.log("events: ", eventsData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

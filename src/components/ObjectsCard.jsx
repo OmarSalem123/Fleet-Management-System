@@ -12,11 +12,10 @@ const ObjectsCard = ({ devices, positions }) => {
     setSelectedObjectId((prevId) => (prevId === id ? null : id));
   };
 
-  const getDeviceInfo = (deviceId) => {
-    const device = devices.find((device) => device.id === deviceId);
-    return device
-      ? { name: device.name, status: device.status }
-      : { name: "Unknown Device", status: "Unknown" };
+  const getDevicePosition = (id) => {
+    const position = positions.find((position) => position.deviceId === id);
+    console.log(position);
+    return position ? position : { name: "Unknown Device", status: "Unknown" };
   };
 
   const toggleMinimized = () => {
@@ -105,32 +104,31 @@ const ObjectsCard = ({ devices, positions }) => {
             <img src="arrow-down.svg" className="mr-1" />
           </div>
         </div>
-        {positions.map((position) => {
+        {devices.map((device) => {
+          const position = getDevicePosition(device.id);
           const { formattedDate, formattedTime } = formatDate(
             position.deviceTime
           );
-          const { name: deviceName, status: deviceStatus } = getDeviceInfo(
-            position.deviceId
-          );
+
           return (
             <div
-              key={position.id}
+              key={device.id}
               className={`w-full h-[48px] flex flex-row items-center justify-between pr-2 gap-7 ${
-                selectedObjectId === position.id ? "bg-p2" : ""
+                selectedObjectId === device.id ? "bg-p2" : ""
               }`}
             >
               <Checkbox
                 color="success"
                 size="small"
-                checked={selectedObjectId === position.id}
-                onChange={() => handleToggle(position.id)}
+                checked={selectedObjectId === device.id}
+                onChange={() => handleToggle(device.id)}
               />
               <div className="flex flex-row w-full items-center">
                 <div className="text-[14px] text-nowrap w-1/3">
-                  {deviceName}
+                  {device.name}
                 </div>
                 <div className="text-[12px] text-nowrap w-1/3 text-center">
-                  {position.speed} km/h
+                  {Math.round(position.speed)} km/h
                 </div>
                 <div className="flex-grow ml-2 text-center w-1/3">
                   <div className="text-sm">{formattedDate}</div>
@@ -138,7 +136,7 @@ const ObjectsCard = ({ devices, positions }) => {
                 </div>
               </div>
               <div className="pr-2">
-                {deviceStatus === "online" ? (
+                {device.status === "online" ? (
                   <span className="inline-block w-3 h-3 bg-green-500 rounded-full" />
                 ) : (
                   <span className="inline-block w-3 h-3 bg-red-500 rounded-full" />
@@ -155,7 +153,12 @@ const ObjectsCard = ({ devices, positions }) => {
 
       {/* History Card section */}
       {selectedObjectId && (
-        <HistoryCard setSelectedObjectId={setSelectedObjectId} />
+        <HistoryCard
+          setSelectedObjectId={setSelectedObjectId}
+          selectedObjectId={selectedObjectId}
+          devices={devices}
+          positions={positions}
+        />
       )}
     </>
   );
