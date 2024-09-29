@@ -101,3 +101,20 @@ export const sidebarData = [
     image: "/Settings.svg",
   },
 ];
+
+export const events = [
+  {
+    id: 1,
+    title: "The object has exited the geofence",
+    location: "33 Nasr city, inner street, Vienna address",
+    date: "10.12.2023 12:00",
+    status: "exit",
+  },
+  {
+    id: 2,
+    title: "The object has exited the geofence",
+    location: "33 Nasr city, inner street, Vienna address",
+    date: "10.12.2023 12:00",
+    status: "enter",
+  },
+];

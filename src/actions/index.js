@@ -35,8 +35,8 @@ export const fetchDevices = async () => {
   }
 };
 
-export const fetchEvents = async () => {
-  const url = "http://localhost:8082/api/reports/route";
+export const fetchEvents = async (id) => {
+  const url = `http://localhost:8082/api/events/${id}`;
   try {
     const response = await axios.get(url, {
       headers: {
@@ -49,3 +49,4 @@ export const fetchEvents = async () => {
     return [];
   }
 };
+
