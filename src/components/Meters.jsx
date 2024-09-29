@@ -1,9 +1,6 @@
 import React from "react";
 
 const Meters = ({ selectedObjectId, devices }) => {
-  const selectedDevice = devices.find(
-    (device) => device.id === selectedObjectId
-  );
 
   return (
     <div className="flex flex-col items-end">

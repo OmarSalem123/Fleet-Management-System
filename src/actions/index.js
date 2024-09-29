@@ -1,11 +1,13 @@
 import axios from "axios";
 
 export const fetchVehiclePositions = async (deviceId, from, to) => {
-  const url = "http://localhost:8082/api/positions";
+  const url = `${process.env.REACT_APP_API_URL}/positions`;
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Basic ${btoa("admin:admin")}`,
+        Authorization: `Basic ${btoa(
+          `${process.env.REACT_APP_API_CREDENTIALS}`
+        )}`,
       },
       params: {
         deviceId,
@@ -21,11 +23,13 @@ export const fetchVehiclePositions = async (deviceId, from, to) => {
 };
 
 export const fetchDevices = async () => {
-  const url = "http://localhost:8082/api/devices";
+  const url = `${process.env.REACT_APP_API_URL}/devices`;
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Basic ${btoa("admin:admin")}`,
+        Authorization: `Basic ${btoa(
+          `${process.env.REACT_APP_API_CREDENTIALS}`
+        )}`,
       },
     });
     return response.data;
@@ -36,11 +40,13 @@ export const fetchDevices = async () => {
 };
 
 export const fetchEvents = async (id) => {
-  const url = `http://localhost:8082/api/events/${id}`;
+  const url = `${process.env.REACT_APP_API_URL}/events/${id}`;
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Basic ${btoa("admin:admin")}`,
+        Authorization: `Basic ${btoa(
+          `${process.env.REACT_APP_API_CREDENTIALS}`
+        )}`,
       },
     });
     return response.data;
@@ -49,4 +55,3 @@ export const fetchEvents = async (id) => {
     return [];
   }
 };
-

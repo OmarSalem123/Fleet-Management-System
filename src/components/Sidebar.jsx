@@ -39,7 +39,7 @@ const Sidebar = ({ sidebarCollapsed, setSidebarCollapsed }) => {
           </div>
         </div>
         <div className="h-full">
-          <ul class="space-y-2 font-medium">
+          <ul className="space-y-2 font-medium">
             {sidebarData.map((item, index) => (
               <li key={index}>
                 {item.sublinks ? (

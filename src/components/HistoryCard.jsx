@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Playback from "./Playback";
 import { events } from "../constants";
 import { fetchEvents } from "../actions";
-import { DatePicker, Space } from "antd";
+import { ConfigProvider, DatePicker } from "antd";
 
 const { RangePicker } = DatePicker;
 
@@ -43,7 +43,6 @@ const HistoryCard = ({
       try {
         const data = fetchEvents(device.id);
         setEvent("events: ", data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -85,7 +84,22 @@ const HistoryCard = ({
       </div>
       {/* second section */}
       <div className="w-full h-[48px] border-b border-border3 flex flex-row items-center justify-center">
-        <RangePicker />
+        <ConfigProvider
+          theme={{
+            components: {
+              DatePicker: {
+                activeBorderColor: "#0F6936",
+                cellActiveWithRangeBg: "#EEF6F0",
+                cellHoverWithRangeBg: "#0F6936",
+                cellRangeBorderColor: "#0F6936",
+                hoverBorderColor: "#0F6936",
+                cellHoverWithRangeBg: "#EEF6F0",
+              },
+            },
+          }}
+        >
+          <RangePicker />
+        </ConfigProvider>
       </div>
       <div className="w-full h-[48px] flex flex-row">
         <div
@@ -116,7 +130,7 @@ const HistoryCard = ({
             <Checkbox color="success" size="small" />
             <p className="text-sm">{device.name}</p>
           </div>
-          <img src="arrow-down.svg" className="mr-1" />
+          <img src="arrow-down.svg" alt="arrow-down" className="mr-1" />
         </div>
       </div>
       {/* history details start here */}
@@ -226,6 +240,7 @@ const HistoryCard = ({
         </div>
         {events.map((event) => (
           <div
+            key={event.id}
             className={`w-full h-[68px] flex flex-row items-center justify-between pr-2 gap-5 mt-2 ${
               selectedEventId === event.id ? "bg-p2" : ""
             }`}

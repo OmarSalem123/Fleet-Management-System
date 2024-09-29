@@ -19,7 +19,6 @@ const ObjectsCard = ({
 
   const getDevicePosition = (id) => {
     const position = positions.find((position) => position.deviceId === id);
-    console.log(position);
     return position ? position : { name: "Unknown Device", status: "Unknown" };
   };
 
@@ -106,7 +105,7 @@ const ObjectsCard = ({
               <Checkbox color="success" size="small" />
               <p className="font-bold text-xs text-text4">NASAM Objects</p>
             </div>
-            <img src="arrow-down.svg" className="mr-1" />
+            <img src="arrow-down.svg" alt="arrow-down" className="mr-1" />
           </div>
         </div>
         {devices.map((device) => {
