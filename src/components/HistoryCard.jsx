@@ -3,12 +3,16 @@ import Checkbox from "@mui/material/Checkbox";
 import Playback from "./Playback";
 import { events } from "../constants";
 import { fetchEvents } from "../actions";
+import { DatePicker, Space } from "antd";
+
+const { RangePicker } = DatePicker;
 
 const HistoryCard = ({
   setSelectedObjectId,
   selectedObjectId,
   devices,
   positions,
+  setIsPlaybackOpen,
 }) => {
   const [selectedHistoryId, setSelectedHistoryId] = useState(null);
   const [selectedEventId, setSelectedEventId] = useState(null);
@@ -80,7 +84,9 @@ const HistoryCard = ({
         </div>
       </div>
       {/* second section */}
-      <div className="w-full h-[48px] border-b border-border3 flex flex-row items-center justify-between"></div>
+      <div className="w-full h-[48px] border-b border-border3 flex flex-row items-center justify-center">
+        <RangePicker />
+      </div>
       <div className="w-full h-[48px] flex flex-row">
         <div
           className={`flex justify-center items-center w-1/2 border-b cursor-pointer p-1 ${
@@ -252,7 +258,11 @@ const HistoryCard = ({
 
       {/* Playback box */}
       {selectedHistoryId && (
-        <Playback setSelectedHistoryId={setSelectedHistoryId} />
+        <Playback
+          setSelectedHistoryId={setSelectedHistoryId}
+          positions={positions}
+          setIsPlaybackOpen={setIsPlaybackOpen}
+        />
       )}
     </div>
   );

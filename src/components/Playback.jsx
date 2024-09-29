@@ -1,18 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { FaPlay, FaPause } from "react-icons/fa";
 
-const Playback = ({ setSelectedHistoryId }) => {
-  const [speed, setSpeed] = React.useState("");
+const Playback = ({ setSelectedHistoryId, positions, setIsPlaybackOpen }) => {
+  const [speed, setSpeed] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
+  const [currentTime, setCurrentTime] = useState("");
+
+  const handlePlayPause = () => {
+    setIsPlaying((prevState) => !prevState);
+  };
+
+  const handleChangeSpeed = (event) => {
+    setSpeed(event.target.value);
+  };
 
   const handleClosePlayback = () => {
     setSelectedHistoryId(null);
+    setIsPlaying(false);
   };
 
-  const handleChange = (event) => {
-    setSpeed(event.target.value);
-  };
+  useEffect(() => {
+    setIsPlaybackOpen(true);
+    return () => {
+      setIsPlaybackOpen(false);
+    };
+  }, [setIsPlaybackOpen]);
+
+  useEffect(() => {
+    let interval;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setCurrentTimeIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % positions.length;
+          setCurrentTime(positions[nextIndex].fixTime);
+          return nextIndex;
+        });
+      }, 1000 / speed);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, speed, positions]);
 
   return (
     <div
@@ -22,8 +52,8 @@ const Playback = ({ setSelectedHistoryId }) => {
       <div className="flex flex-row items-center h-full mx-2 gap-3">
         <h3 className="text-xs font-bold">10.12.2023</h3>
         <p className="text-xs font-bold">04:20:24</p>
-        <div className="cursor-pointer">
-          <img src="play.svg" alt="play" />
+        <div className="cursor-pointer" onClick={handlePlayPause}>
+          {isPlaying ? <FaPause color="#2E9245" /> : <FaPlay color="#2E9245" />}
         </div>
         <div className="min-w-[80px]">
           <FormControl
@@ -35,7 +65,7 @@ const Playback = ({ setSelectedHistoryId }) => {
               id="demo-simple-select"
               value={speed}
               label="speed"
-              onChange={handleChange}
+              onChange={handleChangeSpeed}
               className="px-2"
             >
               <MenuItem value={0.5}>x0.5</MenuItem>

@@ -4,8 +4,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { formatDate } from "../utils";
 import HistoryCard from "./HistoryCard";
 
-const ObjectsCard = ({ devices, positions }) => {
-  const [selectedObjectId, setSelectedObjectId] = useState(null);
+const ObjectsCard = ({
+  devices,
+  positions,
+  setSelectedObjectId,
+  selectedObjectId,
+  setIsPlaybackOpen,
+}) => {
   const [isMinimized, setIsMinimized] = useState(false);
 
   const handleToggle = (id) => {
@@ -158,6 +163,7 @@ const ObjectsCard = ({ devices, positions }) => {
           selectedObjectId={selectedObjectId}
           devices={devices}
           positions={positions}
+          setIsPlaybackOpen={setIsPlaybackOpen}
         />
       )}
     </>

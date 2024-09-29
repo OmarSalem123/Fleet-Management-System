@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchVehiclePositions, fetchDevices, fetchEvents } from "../actions";
+import { fetchVehiclePositions, fetchDevices } from "../actions";
 import {
   MapContainer,
   TileLayer,
@@ -9,17 +9,15 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
-import { formatDate } from "../utils";
 import ObjectsCard from "../components/ObjectsCard";
+import Meters from "../components/Meters";
 
 const LiveTracking = ({ deviceId, startDate, endDate }) => {
   const [positions, setPositions] = useState([]);
   const [devices, setDevices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1000);
-  const [currentTime, setCurrentTime] = useState("");
+  const [selectedObjectId, setSelectedObjectId] = useState(null);
+  const [isPlaybackOpen, setIsPlaybackOpen] = useState(false);
 
   const customIcon = new Icon({
     iconUrl: "/vehicle.svg",
@@ -44,34 +42,6 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
     };
     fetchData();
   }, [deviceId, startDate, endDate]);
-
-  useEffect(() => {
-    let interval;
-    if (isPlaying && positions.length > 0) {
-      interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => {
-          const nextIndex = (prevIndex + 1) % positions.length;
-          setCurrentTime(formatDate(positions[nextIndex].fixTime));
-          return nextIndex;
-        });
-      }, playbackSpeed);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying, positions, playbackSpeed]);
-
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleSpeedChange = (speed) => {
-    setPlaybackSpeed(speed);
-  };
-
-  const handleReset = () => {
-    setCurrentIndex(0);
-    setIsPlaying(false);
-    setCurrentTime(formatDate(positions[0]?.fixTime));
-  };
 
   if (isLoading) return <></>;
 
@@ -99,7 +69,69 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
           positions={positions.map((pos) => [pos.latitude, pos.longitude])}
         />
       </MapContainer>
-      <ObjectsCard positions={positions} devices={devices} />
+      <ObjectsCard
+        positions={positions}
+        devices={devices}
+        setSelectedObjectId={setSelectedObjectId}
+        selectedObjectId={selectedObjectId}
+        setIsPlaybackOpen={setIsPlaybackOpen}
+      />
+
+      {/* Right sidebar */}
+      <div
+        className="absolute top-4 right-4 h-screen z-10"
+        style={{ zIndex: 1000 }}
+      >
+        <div
+          className={`flex ${
+            isPlaybackOpen ? "flex-col items-end" : "flex-row"
+          }`}
+        >
+          <img
+            src="1.svg"
+            alt="nav"
+            className="cursor-pointer w-[56px] h-[56px]"
+          />
+          <img
+            src="2.svg"
+            alt="nav"
+            className="cursor-pointer w-[56px] h-[56px]"
+          />
+          <img
+            src="3.svg"
+            alt="nav"
+            className="cursor-pointer w-[56px] h-[56px]"
+          />
+        </div>
+        {selectedObjectId && (
+          <Meters selectedObjectId={selectedObjectId} devices={devices} />
+        )}
+      </div>
+      <div
+        className="absolute bottom-16 right-4 z-10 flex flex-col w-full items-end"
+        style={{ zIndex: 1000 }}
+      >
+        <img
+          src="4.svg"
+          alt="nav"
+          className="cursor-pointer w-[56px] h-[56px]"
+        />
+        <img
+          src="5.svg"
+          alt="nav"
+          className="cursor-pointer w-[56px] h-[56px]"
+        />
+        <img
+          src="6.svg"
+          alt="nav"
+          className="cursor-pointer w-[56px] h-[56px] "
+        />
+        <img
+          src="7.svg"
+          alt="nav"
+          className="cursor-pointer w-[56px] h-[56px] "
+        />
+      </div>
     </div>
   );
 };
