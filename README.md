@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Project Documentation: Fleet Management System with History Playback Feature
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project Overview:
+The Fleet Management System is designed to help users monitor and track the real-time location and movement of vehicles in a fleet. The system provides features like live tracking, historical data visualization, and a playback mechanism to view the movement of vehicles over a period. The playback feature allows users to pause, play, fast-forward, and rewind historical data.
 
-## Available Scripts
+# Setup Instructions
 
-In the project directory, you can run:
+1. Dependencies:
 
-### `npm start`
+- React: Core library for building the user interface. v-^18.3.1
+- Leaflet: For map rendering and handling the real-time vehicle tracking. leaflet v-^1.9.4 & react-leaflet v-^4.2.1
+- Material-UI & Ant design : Used for dropdowns, buttons, and other UI components. mui v-^6.1.1 & antd v-^5.21.1
+- react-icons: Used to display play/pause icons in the playback bar. v-^5.3.0
+- axios: used for fetching APIs v-^1.7.7
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Installation steps
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- git clone https://github.com/OmarSalem123/Fleet-Management-System.git
+- cd Fleet-Management-System
+- npm install
+- update .env with the real api and credentials file like the example provided in my root folder
+- open http://localhost:3000/liveTracking or click on liveTracking from the dashboard
 
-### `npm test`
+# Usage Guidelines:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. User Interface Overview:
 
-### `npm run build`
+Left Sidebar:
+Provides navigation options for live tracking, historical tracking, reports, maintenance, and more.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Map View:
+Displays real-time or historical positions of vehicles using Leaflet. Markers indicate the current location of the vehicles, and polylines show the vehicle's route.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Objects Card (Left Panel):
+Lists all active devices. Clicking on any device shows its details and allows users to open the History Card.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Right Sidebar (Meters and Gauges):
+Shows meters for vehicle data such as speed, fuel, and engine status when a device is selected.
 
-### `npm run eject`
+Playback Bar (History Playback Feature):
+Located at the bottom of the screen, this provides playback controls such as play, pause, rewind, fast-forward, and speed adjustments. This bar is visible when a device is selected for historical playback.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Playback Component:
+   The Playback component provides the following controls:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Play/Pause: Start or stop playback of the historical data.
+Speed Selector: Adjust the speed of playback (x0.5, x1, x1.5, x2, etc.).
+Rewind/Fast Forward: Navigate through the recorded positions manually.
+Close Playback: Closes the playback bar and resets the UI.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. Data Fetching:
+   The app uses the Traccar API to fetch both real-time and historical vehicle positions. Here’s how the components interact with the API:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+fetchVehiclePositions: Fetches positions within a specified time range (used in the HistoryCard and LiveTracking components).
+fetchDevices: Retrieves all devices (vehicles) and displays them in the ObjectsCard component.
 
-## Learn More
+# Component Breakdown:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. LiveTracking Component:
+   This is the main container that displays the map and manages the vehicle positions. It interacts with:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+MapContainer: Leaflet container displaying vehicle markers.
+ObjectsCard: A component that lists all tracked objects.
+Meters Component: Displays meters when a vehicle is selected. 2. ObjectsCard Component:
+Handles the list of devices and communicates the selected device to the HistoryCard and LiveTracking components.
 
-### Code Splitting
+3. HistoryCard Component:
+   Displays the historical data for the selected vehicle, allowing users to choose a date range and see playback controls.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4. Playback Component:
+   Handles the playback of historical data, including controlling the speed of playback and switching between playing and paused states. The parent component receives the isPlaybackOpen state from here to adjust the UI layout dynamically.
 
-### Analyzing the Bundle Size
+# Final output
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Final output](./public/output.png)

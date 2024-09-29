@@ -18,7 +18,7 @@ const Sidebar = ({ sidebarCollapsed, setSidebarCollapsed }) => {
 
   return (
     <div
-      className={`fixed flex flex-col justify-between shadow-xl transition-all duration-300 h-full z-40 overflow-auto bg-p1 border border-border2 ${
+      className={`fixed flex flex-col justify-between shadow-xl transition-all duration-300 h-full z-40 overflow-auto bg-p1 border border-border2 max-md:hidden ${
         sidebarCollapsed ? "w-16" : "w-64"
       }`}
     >
@@ -39,7 +39,7 @@ const Sidebar = ({ sidebarCollapsed, setSidebarCollapsed }) => {
           </div>
         </div>
         <div className="h-full">
-          <ul className="space-y-2 font-medium">
+          <ul class="space-y-2 font-medium">
             {sidebarData.map((item, index) => (
               <li key={index}>
                 {item.sublinks ? (

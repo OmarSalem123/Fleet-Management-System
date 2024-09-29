@@ -46,7 +46,7 @@ const Playback = ({ setSelectedHistoryId, positions, setIsPlaybackOpen }) => {
 
   return (
     <div
-      className="absolute top-0 left-[380px] bg-white w-[306px] h-[44px] rounded-xl shadow-lg z-10"
+      className="absolute top-0 left-[380px] bg-white w-[306px] h-[44px] rounded-xl shadow-lg z-10 max-md:left-4 max-md:top-[660px]"
       style={{ zIndex: 1000 }}
     >
       <div className="flex flex-row items-center h-full mx-2 gap-3">

@@ -79,7 +79,7 @@ const LiveTracking = ({ deviceId, startDate, endDate }) => {
 
       {/* Right sidebar */}
       <div
-        className="absolute top-4 right-4 h-screen z-10"
+        className="absolute top-4 right-4 h-screen z-10 max-md:hidden"
         style={{ zIndex: 1000 }}
       >
         <div

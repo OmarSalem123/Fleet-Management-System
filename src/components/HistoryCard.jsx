@@ -54,7 +54,7 @@ const HistoryCard = ({
 
   return (
     <div
-      className="absolute top-4 left-[400px] bg-white w-[368px] h-[640px] rounded-xl shadow-lg z-10"
+      className="absolute top-4 left-[400px] bg-white w-[368px] h-[640px] rounded-xl shadow-lg z-10 max-md:left-4 max-md:top-[660px]"
       style={{ zIndex: 1000 }}
     >
       {/* first section */}

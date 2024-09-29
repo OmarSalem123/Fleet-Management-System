@@ -5,7 +5,7 @@ const Navbar = () => {
     <div className="flex items-center justify-between bg-p1 px-4 py-3 h-[50px]">
       <div className="flex flex-row gap-5">
         <img src="/VISTA.svg" alt="logo" width={84} height={40} />
-        <div className="relative flex h-min w-[320px]">
+        <div className="relative flex h-min w-[320px] max-md:hidden">
           <div className="absolute left-[8px] top-1/2 mr-2 h-5 w-5 -translate-y-1/2 transform cursor-pointer">
             <img src="/search.svg" alt="search" />
           </div>

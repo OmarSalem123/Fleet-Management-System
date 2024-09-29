@@ -1,7 +1,6 @@
 import React from "react";
 
-const Meters = ({ selectedObjectId, devices }) => {
-
+const Meters = () => {
   return (
     <div className="flex flex-col items-end">
       <div className="mt-4">

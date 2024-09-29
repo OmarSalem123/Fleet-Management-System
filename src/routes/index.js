@@ -6,15 +6,15 @@ import Layout from "../layout";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Layout>
+        <App />
+      </Layout>
+    ),
     children: [
       {
         path: "liveTracking",
-        element: (
-          <Layout>
-            <LiveTracking />
-          </Layout>
-        ),
+        element: <LiveTracking />,
       },
     ],
   },
