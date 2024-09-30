@@ -61,7 +61,8 @@ fetchDevices: Retrieves all devices (vehicles) and displays them in the ObjectsC
 
 MapContainer: Leaflet container displaying vehicle markers.
 ObjectsCard: A component that lists all tracked objects.
-Meters Component: Displays meters when a vehicle is selected. 2. ObjectsCard Component:
+Meters Component: Displays meters when a vehicle is selected. 
+2. ObjectsCard Component:
 Handles the list of devices and communicates the selected device to the HistoryCard and LiveTracking components.
 
 3. HistoryCard Component:
